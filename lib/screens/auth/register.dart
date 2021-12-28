@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
@@ -153,13 +153,15 @@ class _RegisterState extends State<Register> {
     var res = await http.post(url, body: data);
 
       if (jsonDecode(res.body) == "Account already exists") {
-        Fluttertoast.showToast(
-            msg: 'Account already exists, Please login',
-            toastLength: Toast.LENGTH_LONG);
+        print('Account already exists, Please login');
+        // Fluttertoast.showToast(
+        //     msg: 'Account already exists, Please login',
+        //     toastLength: Toast.LENGTH_LONG);
       } else {
         if (jsonDecode(res.body) == "true") {
-          Fluttertoast.showToast(
-              msg: "Account Created", toastLength: Toast.LENGTH_SHORT);
+          print('Account Created');
+          // Fluttertoast.showToast(
+          //     msg: "Account Created", toastLength: Toast.LENGTH_SHORT);
           List<Map<String, dynamic>> query =
               await DatabaseHelper.instance.queryAll();
           int Take = await DatabaseHelper.instance.TotalToTake();
@@ -170,8 +172,8 @@ class _RegisterState extends State<Register> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => Home(query, Give, Take)));
         } else {
-          Fluttertoast.showToast(
-              msg: "Error, Try Again later", toastLength: Toast.LENGTH_LONG);
+          // Fluttertoast.showToast(
+          //     msg: "Error, Try Again later", toastLength: Toast.LENGTH_LONG);
         }
       }
     setState(() {
@@ -181,7 +183,8 @@ class _RegisterState extends State<Register> {
 
   Widget _RoundContinueButton(isLoading) {
     return RawMaterialButton(
-      onPressed: () => (namectrl.text == '' || emailctrl.text == '' || passctrl.text == '') ? Fluttertoast.showToast(msg: 'Please Enter Name, Email And password',toastLength:  Toast.LENGTH_LONG) : registerUser(),
+      onPressed: () {},
+      // => (namectrl.text == '' || emailctrl.text == '' || passctrl.text == '') ? Fluttertoast.showToast(msg: 'Please Enter Name, Email And password',toastLength:  Toast.LENGTH_LONG) : registerUser(),
       elevation: 0.0,
       fillColor: Palette.darkBlue,
       splashColor: Palette.darkOrange,

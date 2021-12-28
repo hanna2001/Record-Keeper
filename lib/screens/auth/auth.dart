@@ -31,7 +31,7 @@ class _AuthScreenState extends State<AuthScreen>
 
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
+      // resizeToAvoidBottomPadding: true,
         body: Stack(
       children: [
         SizedBox.expand(

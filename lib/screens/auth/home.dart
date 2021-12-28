@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/screens/auth/share.dart';
 import 'package:share/share.dart';
@@ -187,9 +187,9 @@ class _HomeState extends State<Home> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  Fluttertoast.showToast(
-                                      msg: "you Are already at Home",
-                                      toastLength: Toast.LENGTH_SHORT);
+                                  // Fluttertoast.showToast(
+                                  //     msg: "you Are already at Home",
+                                  //     toastLength: Toast.LENGTH_SHORT);
                                 },
                                 child: Container(
                                   child: Column(

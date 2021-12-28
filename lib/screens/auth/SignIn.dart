@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
@@ -132,13 +132,13 @@ class _SignInState extends State<SignIn> {
     };
     var res = await http.post(url, body: data);
     if (jsonDecode(res.body) == "dont have account") {
-      Fluttertoast.showToast(
-          msg: "Dont have Account, Please register",
-          toastLength: Toast.LENGTH_LONG);
+      // Fluttertoast.showToast(
+      //     msg: "Dont have Account, Please register",
+      //     toastLength: Toast.LENGTH_LONG);
     } else {
       if (jsonDecode(res.body) == "false") {
-        Fluttertoast.showToast(
-            msg: "Incorrect Password", toastLength: Toast.LENGTH_SHORT);
+        // Fluttertoast.showToast(
+        //     msg: "Incorrect Password", toastLength: Toast.LENGTH_SHORT);
       } else {
         List<Map<String, dynamic>> query =
             await DatabaseHelper.instance.queryAll();
@@ -158,11 +158,11 @@ class _SignInState extends State<SignIn> {
   Widget _RoundContinueButton(isLoading) {
     return RawMaterialButton(
       onPressed: () {
-        (emailctrl.text == '' || passctrl.text == '')
-            ? Fluttertoast.showToast(
-            msg: 'Please Enter Email And password',
-            toastLength: Toast.LENGTH_LONG)
-            : LoginUser();
+        // (emailctrl.text == '' || passctrl.text == '')
+            // ? Fluttertoast.showToast(
+            // msg: 'Please Enter Email And password',
+            // toastLength: Toast.LENGTH_LONG)
+            // : LoginUser();
       },
       elevation: 0.0,
       fillColor: Palette.darkBlue,

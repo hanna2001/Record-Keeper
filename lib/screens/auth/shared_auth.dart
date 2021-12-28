@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
@@ -139,7 +139,7 @@ class _SharedAuthState extends State<SharedAuth>
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => Home(query, Give, Take)));
     }else{
-      Fluttertoast.showToast(msg: 'Incorrect Password',toastLength:  Toast.LENGTH_LONG);
+      // Fluttertoast.showToast(msg: 'Incorrect Password',toastLength:  Toast.LENGTH_LONG);
     }
     setState((){
       isLoading = false;
@@ -148,7 +148,8 @@ class _SharedAuthState extends State<SharedAuth>
 
   Widget _RoundContinueButton(isLoading) {
     return RawMaterialButton(
-      onPressed: () => (passctrl.text == '') ? Fluttertoast.showToast(msg: 'Please Enter Your password',toastLength:  Toast.LENGTH_LONG) : verify(),
+      onPressed: () {},
+      // => (passctrl.text == '') ? Fluttertoast.showToast(msg: 'Please Enter Your password',toastLength:  Toast.LENGTH_LONG) : verify(),
       elevation: 0.0,
       fillColor: Palette.darkBlue,
       splashColor: Palette.darkOrange,

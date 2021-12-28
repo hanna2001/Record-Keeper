@@ -20,6 +20,10 @@ class _AddState extends State<Add> {
   TextEditingController _controller4 = new TextEditingController();
   bool toggleValue = false;
   int Take = 0, Give = 0;
+  List<bool> selected=[false,false,false,false];
+  String label='food';
+  int index=0;
+  int selectedIndex;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +111,14 @@ class _AddState extends State<Add> {
                     color: Colors.black,
                     fontSize: 23,
                   ),
+                ),
+                Row(
+                  children: [
+                    option('Food',0),
+                    option('Food',1),
+                    option('Food',2),
+                    option('Food',3),
+                  ],
                 ),
                 TextField(
                   decoration:  InputDecoration(fillColor: Colors.white24,
@@ -221,6 +233,27 @@ class _AddState extends State<Add> {
         )
     );
   }
+
+  Padding option(String label,int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ChoiceChip(
+                        label: Text(
+                          label,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        selectedColor: Colors.grey,
+                        selected: selected[index],
+                        onSelected:(value){
+                          setState(() {
+                            clearAll();
+                            selected[index]=!selected[index];
+                            selectedIndex=index;
+                          });
+                        },
+                      ),
+    );
+  }
   closePopup() async{
     List<Map<String, dynamic>> query =
         await DatabaseHelper.instance.queryAll();
@@ -228,4 +261,10 @@ class _AddState extends State<Add> {
     int Give1 = await DatabaseHelper.instance.TotalToGive();
     Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(query,Give1,Take1)));
   }
+
+  void clearAll(){
+      selected=[false,false,false,false];
+  }
 }
+
+

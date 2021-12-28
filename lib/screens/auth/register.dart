@@ -183,8 +183,9 @@ class _RegisterState extends State<Register> {
 
   Widget _RoundContinueButton(isLoading) {
     return RawMaterialButton(
-      onPressed: () {},
-      // => (namectrl.text == '' || emailctrl.text == '' || passctrl.text == '') ? Fluttertoast.showToast(msg: 'Please Enter Name, Email And password',toastLength:  Toast.LENGTH_LONG) : registerUser(),
+      onPressed: () {
+        (namectrl.text == '' || emailctrl.text == '' || passctrl.text == '') ? print('not done') : registerUser();
+      },
       elevation: 0.0,
       fillColor: Palette.darkBlue,
       splashColor: Palette.darkOrange,

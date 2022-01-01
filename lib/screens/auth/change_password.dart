@@ -8,6 +8,8 @@ import '../../main.dart';
 import '../background_paint.dart';
 import 'home.dart';
 import 'change_password.dart';
+import 'package:http/http.dart'as http;
+import 'dart:convert';
 
 class ChangePass extends StatefulWidget {
 
@@ -18,6 +20,7 @@ class ChangePass extends StatefulWidget {
 class _ChangePassState extends State<ChangePass> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   TextEditingController passctrl,cpassctrl;
+  String cpass_;
   bool pass = true,cpass=true;
   bool isLoading = false;
   @override
@@ -70,6 +73,7 @@ class _ChangePassState extends State<ChangePass> with SingleTickerProviderStateM
                       padding: EdgeInsets.symmetric(vertical: 16),
                       child: TextField(
                         controller: passctrl,
+                      
                         obscureText: pass,
                         decoration: InputDecoration(
                             hintText: 'New Password',
@@ -96,10 +100,13 @@ class _ChangePassState extends State<ChangePass> with SingleTickerProviderStateM
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       child: TextField(
-                        controller: cpassctrl,
+                        // controller: cpassctrl,
+                        onChanged: (val){
+                          cpass_=val;
+                        },
                         obscureText: cpass,
                         decoration: InputDecoration(
-                            hintText: ' Confirm New Password',
+                            hintText: 'Confirm New Password',
                             hintStyle: TextStyle(color: Colors.black54, fontSize: 20),
                             prefixIcon: Icon(
                               Icons.vpn_key,
@@ -120,28 +127,68 @@ class _ChangePassState extends State<ChangePass> with SingleTickerProviderStateM
                             )),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Change Password',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              color: Palette.darkBlue,
-                              fontSize: 24,
-                            ),
-                          ),
-                          Expanded(
-                            child: Center(
-                              // child: _LoadingIndicator(isLoading),
-                            ),
-                          ),
-                          // _RoundContinueButton(isLoading),
-                        ],
-                      ),
-                    ),
+
+                    Center(
+              child: InkWell(
+                onTap: () async {
+                  String message="";
+                  bool result;
+                  if(passctrl.text.length<6)
+                      setState(() {
+                        message="Enter the password(max 6)";
+                      });
+                  else if(cpass_==null)
+                      setState(() {
+                        message="Please confirm new password";
+                      });
+                  else if(cpass_!=passctrl.text){
+                      setState(() {
+                        message="Password should match";
+                      });
+
+                  }
+                  else{
+                    result = await UpdateUserTable();
+                    setState(() {
+                      if(result){
+                        message="Password updated successfull";
+                        addPassToSF(cpass_);
+                      }
+                        
+                      else
+                        message="Something Went Wrong, try again";
+                    });
+                  }
+                  Fluttertoast.showToast(msg: message,toastLength:  Toast.LENGTH_SHORT );
+                  if(result){
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  }
+
+                  // (namectrl == null) ? addNameToSF(widget.name) : addNameToSF(namectrl);
+                  // (number == null) ? addNumberToSF(widget.number) : addNumberToSF(number);
+                  // (companyname == null) ? addCompanyNameToSF(widget.companyname) : addCompanyNameToSF(companyname);
+                  // name1 = await getName();
+                  // email1 = await getEmail();
+                  // companyname1 = await getCompanyName();
+                  // number1 = await getNumber();
+                  // bool result = await UpdateUserTable();
+                  // result ? Fluttertoast.showToast(msg: 'Changes saved successfully',toastLength:  Toast.LENGTH_SHORT,gravity: ToastGravity.CENTER ): Fluttertoast.showToast(msg: 'Something Went Wrong, try again',toastLength:  Toast.LENGTH_SHORT,gravity: ToastGravity.CENTER );
+                  
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 85, vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    color: Color(0xfff96060),
+                  ),
+                  child: Text('Change Password',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
                   ],
                 ),
               ),
@@ -150,5 +197,26 @@ class _ChangePassState extends State<ChangePass> with SingleTickerProviderStateM
         ),
       ]),
     );
+  
+  }
+  Future<bool> UpdateUserTable()async {
+    var url = "https://355668.xyz/Authentication/update_info.php";
+    String email=await getEmail();
+    String name=await getName();
+    String shop=await getCompanyName();
+    int number=await getNumber();
+    var data = {
+      "email" : email??'',
+      "name": name??'',
+      "ShopName": shop??'',
+      "number": number??'',
+      "pass":cpass_
+    };
+    var res = await http.post(url, body: data);
+    if(jsonDecode(res.body) == "true"){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

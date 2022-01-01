@@ -76,7 +76,7 @@ class _SharedAuthState extends State<SharedAuth>
                         controller: passctrl,
                         obscureText: pass,
                         decoration: InputDecoration(
-                            hintText: 'Password',
+                            hintText: widget.changePass?'Current Password':'Password',
                             hintStyle: TextStyle(color: Colors.black54, fontSize: 20),
                             prefixIcon: Icon(
                               Icons.vpn_key,
@@ -103,7 +103,7 @@ class _SharedAuthState extends State<SharedAuth>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Verify',
+                            widget.changePass?'Change Password':'Log In',
                             style: const TextStyle(
                               fontWeight: FontWeight.w800,
                               color: Palette.darkBlue,

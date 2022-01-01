@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:local_auth/local_auth.dart';
 // ignore: unused_import
 import 'package:login_ui/config/database_helper.dart';
@@ -38,12 +39,13 @@ class _PinState extends State<Pin> with SingleTickerProviderStateMixin {
     return GestureDetector(
       onTap: ()async{
         bool check = await bioAuth();
+        // bool check = false;
         List<Map<String, dynamic>> query = await DatabaseHelper.instance.queryAll();
         int Take = await DatabaseHelper.instance.TotalToTake();
         int Give = await DatabaseHelper.instance.TotalToGive();
         String name = await getName();
         setState(() {
-          check ? Navigator.push(context, MaterialPageRoute(builder: (context) => Home(query,Give,Take))) : Navigator.push(context, MaterialPageRoute(builder: (context) => SharedAuth(name)));
+          check ? Navigator.push(context, MaterialPageRoute(builder: (context) => Home(query,Give,Take))) : Navigator.push(context, MaterialPageRoute(builder: (context) => SharedAuth(name,false)));
         });
       },
       child: Scaffold(
@@ -113,6 +115,7 @@ class _PinState extends State<Pin> with SingleTickerProviderStateMixin {
     List<BiometricType> list = List();
     try {
       list = await localAuthentication.getAvailableBiometrics();
+      print("no..."+list[0].toString());
       bool auth = false;
       if (list.length > 0) {
         if (list.contains(BiometricType.fingerprint)) {
@@ -143,7 +146,12 @@ class _PinState extends State<Pin> with SingleTickerProviderStateMixin {
         return false;
       }
     } catch (e) {
-      print(e.toString());
+      print("------------"+e.toString());
+      return false;
+       Fluttertoast.showToast(
+         msg: 'Please add a Bio-metric lock',
+         toastLength: Toast.LENGTH_LONG
+         );
     }
   }
 }

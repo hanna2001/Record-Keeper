@@ -18,12 +18,11 @@ class _AddState extends State<Add> {
   int _controller2;
   TextEditingController _controller3 = new TextEditingController();
   TextEditingController _controller4 = new TextEditingController();
-  bool toggleValue = false;
+  bool toggleValue = true;
   int Take = 0, Give = 0;
   List<bool> selected=[false,false,false,false];
-  String label='food';
   int index=0;
-  int selectedIndex;
+  int selectedIndex=3;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,10 +113,35 @@ class _AddState extends State<Add> {
                 ),
                 Row(
                   children: [
-                    option('Food',0),
-                    option('Food',1),
-                    option('Food',2),
-                    option('Food',3),
+                    Expanded(
+                      child: SizedBox(
+                        height: 50,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                        children: [
+                          option('Food',0),
+                          option('Shopping',1),
+                          option('Medical',2),
+                          option('Others',3),
+                          // option('Vacation',4),
+                          // option('Entertainment',5),
+                          // option('',6),
+                          // option('Food',7),
+                        ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      child: Icon(Icons.cancel,
+                      ),
+                      onTap: (){
+                        setState(() {
+                           clearAll();
+                          selectedIndex=null;
+                        });
+                       
+                      },
+                    )
                   ],
                 ),
                 TextField(
@@ -143,6 +167,7 @@ class _AddState extends State<Add> {
                     labels: ['Take', 'Give'],
                     activeBgColors: [Colors.green, Color(0xfff96060)],
                     onToggle: (index) {
+                      print(toggleValue);
                       if(index == 0){
                         toggleValue = true;
                       }else{
@@ -164,6 +189,7 @@ class _AddState extends State<Add> {
                 Center(
                   child: InkWell(
                     onTap: () async {
+                      print(toggleValue);
                       int i =
                       await DatabaseHelper.instance.insert({
                         DatabaseHelper.columnName:
@@ -176,7 +202,8 @@ class _AddState extends State<Add> {
                         (toggleValue == false)
                             ? 'Give'
                             : 'Take',
-                        DatabaseHelper.columnDescription: _controller4.text
+                        DatabaseHelper.columnDescription: _controller4.text,
+                        DatabaseHelper.columnIcon: selectedIndex
                       });
                       List<Map<String, dynamic>> query =
                       await DatabaseHelper.instance
@@ -254,16 +281,20 @@ class _AddState extends State<Add> {
                       ),
     );
   }
+  
+
+  void clearAll(){
+    
+      selected=[false,false,false,false];
+
+  }
+  
   closePopup() async{
     List<Map<String, dynamic>> query =
         await DatabaseHelper.instance.queryAll();
     int Take1 = await DatabaseHelper.instance.TotalToTake();
     int Give1 = await DatabaseHelper.instance.TotalToGive();
     Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(query,Give1,Take1)));
-  }
-
-  void clearAll(){
-      selected=[false,false,false,false];
   }
 }
 

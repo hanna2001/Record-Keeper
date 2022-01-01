@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:login_ui/screens/auth/profile.dart';
+import 'package:login_ui/screens/auth/share.dart';
 import '../../main.dart';
 import 'about_us.dart';
+import 'settings.dart';
 
 
 class More extends StatefulWidget {
@@ -34,7 +36,7 @@ class _MoreState extends State<More> {
                   String companyname = await getCompanyName();
                   int number = await getNumber();
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile(Name,email,number,companyname)));},child: Bar(Icons.person, 'Profile')),
-//                GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Setting()));},child: Bar(Icons.settings, 'Settings')),
+               GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Setting()));},child: Bar(Icons.settings, 'Settings')),
                 GestureDetector(
                     onTap: (){
                       setState(() {
@@ -48,7 +50,15 @@ class _MoreState extends State<More> {
                     },
                     child: Bar(Icons.info_outline, 'About Us')),
                 Bar(Icons.help_outline, 'Help & Support'),
-                Bar(Icons.share, 'Invite Friends'),
+                GestureDetector(
+                  child: Bar(
+                    Icons.share, 'Invite Friends'
+                    ),
+                  onTap:(){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Reminder('Hey check out this app!!',true)));
+
+                  },
+                  ),
                 SizedBox(height: 20,),
                 Center(child: Text('V 1.0.0',style: TextStyle(color: Colors.grey,fontSize:13),),),
                 SizedBox(height: 10,),

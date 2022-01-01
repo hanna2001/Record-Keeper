@@ -2,13 +2,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/screens/auth/share.dart';
 import 'package:share/share.dart';
 import 'add.dart';
 import 'edit.dart';
 import 'more.dart';
+import '../../config/icon.dart';
 
 class Home extends StatefulWidget {
   List<Map<String, dynamic>> query;
@@ -166,7 +167,8 @@ class _HomeState extends State<Home> {
                                     widget.query[index]['_id'],
                                     widget.query[index]['number'],
                                     widget.query[index]['condition'],
-                                    widget.query[index]['description']);
+                                    widget.query[index]['description'],
+                                    widget.query[index]['icon']);
                               }),
                         ),
                 ),
@@ -187,9 +189,9 @@ class _HomeState extends State<Home> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  // Fluttertoast.showToast(
-                                  //     msg: "you Are already at Home",
-                                  //     toastLength: Toast.LENGTH_SHORT);
+                                  Fluttertoast.showToast(
+                                      msg: "you Are already at Home",
+                                      toastLength: Toast.LENGTH_SHORT);
                                 },
                                 child: Container(
                                   child: Column(
@@ -302,7 +304,7 @@ class _HomeState extends State<Home> {
   }
 
   Slidable taskWidget(Color color, String name, int amount, int id,
-      String number, String condition, String desc) {
+      String number, String condition, String desc, int icon) {
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       actionExtentRatio: 0.3,
@@ -339,7 +341,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Text(
-                  '$condition ₹$amount',
+                  '${iconNumber[(icon)]}  $condition ₹$amount',
                   style: TextStyle(color: Colors.grey, fontSize: 18),
                 )
               ],
@@ -365,7 +367,7 @@ class _HomeState extends State<Home> {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        Edit(id, name, amount, number, desc)));
+                        Edit(id, name, amount, number, desc, icon)));
           },
         ),
         IconSlideAction(
@@ -429,11 +431,11 @@ class _HomeState extends State<Home> {
           icon: Icons.share,
           onTap: () {
             if (condition == 'Take') {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> Reminder('! Reminder ! \n$name you have to Give me ₹$amount Rupees for $desc.')));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> Reminder('! Reminder ! \n$name you have to Give me ₹$amount Rupees for $desc.',false)));
 //              Share.share(
 //                  "! *Reminder* ! \n$name you have to Give me ₹$amount Rupees");
             } else {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> Reminder('! Reminder ! \n$name you have to Take Rupees ₹$amount from me which you had Paid for $desc.')));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> Reminder('! Reminder ! \n$name you have to Take Rupees ₹$amount from me which you had Paid for $desc.',false)));
 //              Share.share(
 //                  "! *Reminder* ! \n$name you have to Take Rupees ₹$amount from me");
             }

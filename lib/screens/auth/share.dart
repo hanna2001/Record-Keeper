@@ -3,7 +3,8 @@ import 'package:share/share.dart';
 
 class Reminder extends StatefulWidget {
   String defaultMsg;
-  Reminder(this.defaultMsg);
+  bool invite;
+  Reminder(this.defaultMsg,this.invite);
   @override
   _ReminderState createState() => _ReminderState();
 }
@@ -29,7 +30,7 @@ class _ReminderState extends State<Reminder> {
           children: [
             SizedBox(height: 20,),
             Text(
-              'Customize your Message',
+              widget.invite?'Invite a friend':'Customize your Message',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 23,

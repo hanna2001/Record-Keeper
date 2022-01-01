@@ -15,6 +15,7 @@ class DatabaseHelper {
   static final columnAmount = 'amount';
   static final columnCondition = 'condition';
   static final columnDescription = 'description';
+  static final columnIcon = 'icon';
 
   //making it a singleton class
   DatabaseHelper._privateConstructor();
@@ -49,7 +50,8 @@ class DatabaseHelper {
       $columnPhone TEXT,
       $columnAmount INTEGER,
       $columnCondition TEXT,
-      $columnDescription TEXT
+      $columnDescription TEXT,
+      $columnIcon INTEGER
       )
       '''
     );

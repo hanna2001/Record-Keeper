@@ -8,8 +8,8 @@ class Edit extends StatefulWidget {
   String Name;
   int id;
   String number,desc;
-  int Amount;
-  Edit(this.id,this.Name, this.Amount,this.number,this.desc);
+  int Amount,icon;
+  Edit(this.id,this.Name, this.Amount,this.number,this.desc,this.icon);
   @override
   _EditState createState() => _EditState();
 }
@@ -17,10 +17,17 @@ class Edit extends StatefulWidget {
 class _EditState extends State<Edit> {
   String _controller1,_controller3,_controller4;
   int amount,_controller2=0;
+  List<bool> selected=[false,false,false,false,false,false,false,false];
+  
+  String label='food';
+  int index=0;
+  int selectedIndex;
   @override
   void initState() {
     amount = widget.Amount;
-    setState((){});
+    setState((){
+      selected[widget.icon]=true;
+    });
     super.initState();
   }
   @override
@@ -103,6 +110,7 @@ class _EditState extends State<Edit> {
                     _controller3 = value;
                   },
                 ),
+                
                 Text(
                   'Description',
                   style: TextStyle(
@@ -111,6 +119,39 @@ class _EditState extends State<Edit> {
                   ),
                 ),
                 SizedBox(height: 12,),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 50,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                        children: [
+                          option('Food',0),
+                          option('Shopping',1),
+                          option('Medical',2),
+                          option('Others',3),
+                          // option('Vacation',4),
+                          // option('Entertainment',5),
+                          // option('',6),
+                          // option('Food',7),
+                        ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      child: Icon(Icons.cancel,
+                      ),
+                      onTap: (){
+                        setState(() {
+                           clearAll();
+                          selectedIndex=null;
+                        });
+                       
+                      },
+                    )
+                  ],
+                ),
                 TextFormField(
                   initialValue: widget.desc,
                   onChanged: (value){
@@ -133,6 +174,7 @@ class _EditState extends State<Edit> {
                         DatabaseHelper.columnAmount: (_controller2 == 0)? widget.Amount : _controller2,
                         DatabaseHelper.columnPhone: (_controller3 == null) ? widget.number : _controller3,
                         DatabaseHelper.columnDescription: (_controller4 == null) ? widget.desc : _controller4,
+                        DatabaseHelper.columnIcon: (selectedIndex==null) ? widget.icon : selectedIndex
                       });
                       List<Map<String, dynamic>> query = await DatabaseHelper.instance.queryAll();
                       int Take = await DatabaseHelper.instance.TotalToTake();
@@ -189,5 +231,33 @@ class _EditState extends State<Edit> {
         ),
       ),
     );
+  }
+
+   Padding option(String label,int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: ChoiceChip(
+                        label: Text(
+                          label,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        selectedColor: Colors.grey,
+                        selected: selected[index],
+                        onSelected:(value){
+                          setState(() {
+                            clearAll();
+                            selected[index]=!selected[index];
+                            selectedIndex=index;
+                          });
+                        },
+                      ),
+    );
+  }
+  
+
+  void clearAll(){
+    
+      selected=[false,false,false,false,false,false,false,false];
+
   }
 }

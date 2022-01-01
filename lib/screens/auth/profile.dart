@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../main.dart';
 import 'package:http/http.dart'as http;
 
@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
           children: [
             CircleAvatar(
               child: Text(
-                'AC', style: TextStyle(color: Colors.white, fontSize: 25),),
+                widget.email[0].toUpperCase(), style: TextStyle(color: Colors.white, fontSize: 30,fontWeight: FontWeight.bold),),
               backgroundColor: Color(0xfff96060),
               radius: 50,
             ),
@@ -124,7 +124,7 @@ class _ProfileState extends State<Profile> {
                   companyname1 = await getCompanyName();
                   number1 = await getNumber();
                   bool result = await UpdateUserTable();
-                  // result ? Fluttertoast.showToast(msg: 'Changes saved successfully',toastLength:  Toast.LENGTH_SHORT,gravity: ToastGravity.CENTER ): Fluttertoast.showToast(msg: 'Something Went Wrong, try again',toastLength:  Toast.LENGTH_SHORT,gravity: ToastGravity.CENTER );;
+                  result ? Fluttertoast.showToast(msg: 'Changes saved successfully',toastLength:  Toast.LENGTH_SHORT,gravity: ToastGravity.CENTER ): Fluttertoast.showToast(msg: 'Something Went Wrong, try again',toastLength:  Toast.LENGTH_SHORT,gravity: ToastGravity.CENTER );;
                   Navigator.pop(context);
                 },
                 child: Container(

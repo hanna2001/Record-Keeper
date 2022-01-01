@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:login_ui/screens/auth/shared_auth.dart';
 
 import '../../main.dart';
 
@@ -23,7 +24,16 @@ class _SettingState extends State<Setting> {
       ),
       body: Column(
         children: [
-          Bar(Icons.person, 'Change Password'),
+          GestureDetector(
+            onTap: ()async{
+              String name = await getName();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SharedAuth(name, true)));
+            },
+            child: Bar(
+              Icons.person,
+               'Change Password'
+               )
+          ),
           GestureDetector(
               onTap: (){
                 setState(() {

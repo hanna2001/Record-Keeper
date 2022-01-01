@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
@@ -131,14 +131,20 @@ class _SignInState extends State<SignIn> {
       "pass": passctrl.text,
     };
     var res = await http.post(url, body: data);
-    if (jsonDecode(res.body) == "dont have account") {
-      // Fluttertoast.showToast(
-      //     msg: "Dont have Account, Please register",
-      //     toastLength: Toast.LENGTH_LONG);
+    var body=jsonDecode(res.body);
+    print(body);
+    if (body['result'] == "dont have account") {
+      print("if");
+      Fluttertoast.showToast(
+          msg: "Dont have Account, Please register",
+          toastLength: Toast.LENGTH_LONG);
+          print("Dont have Account, Please register");
     } else {
-      if (jsonDecode(res.body) == "false") {
-        // Fluttertoast.showToast(
-        //     msg: "Incorrect Password", toastLength: Toast.LENGTH_SHORT);
+      print("else");
+      if (body['result'] =="false") {
+        Fluttertoast.showToast(
+            msg: "Incorrect Password", toastLength: Toast.LENGTH_SHORT);
+        print('Incorrect Password');
       } else {
         List<Map<String, dynamic>> query =
             await DatabaseHelper.instance.queryAll();
@@ -146,6 +152,9 @@ class _SignInState extends State<SignIn> {
         int Give = await DatabaseHelper.instance.TotalToGive();
         addEmailToSF(emailctrl.text);
         addPassToSF(passctrl.text);
+        addNameToSF(body['name']);
+        addCompanyNameToSF(body['company']);
+        addNumberToSF(body['phone']);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => Home(query, Give, Take)));
       }
@@ -158,11 +167,11 @@ class _SignInState extends State<SignIn> {
   Widget _RoundContinueButton(isLoading) {
     return RawMaterialButton(
       onPressed: () {
-        // (emailctrl.text == '' || passctrl.text == '')
-            // ? Fluttertoast.showToast(
-            // msg: 'Please Enter Email And password',
-            // toastLength: Toast.LENGTH_LONG)
-            // : LoginUser();
+        (emailctrl.text == '' || passctrl.text == '')
+            ? Fluttertoast.showToast(
+            msg: 'Please Enter Email And password',
+            toastLength: Toast.LENGTH_LONG)
+            : LoginUser();
       },
       elevation: 0.0,
       fillColor: Palette.darkBlue,

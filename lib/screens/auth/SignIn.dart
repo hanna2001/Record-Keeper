@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/main.dart';
+import 'package:login_ui/screens/auth/change_password.dart';
 import 'home.dart';
 
 class SignIn extends StatefulWidget {
@@ -19,7 +20,7 @@ class _SignInState extends State<SignIn> {
   bool isLoading = false;
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     emailctrl = new TextEditingController();
     passctrl = new TextEditingController();
@@ -89,6 +90,20 @@ class _SignInState extends State<SignIn> {
                             size: 25,
                           ),
                         )),
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePass()));
+                  },
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      'Forgot password',
+                      style: TextStyle(
+                        decoration: TextDecoration.underline
+                      ),
+                    ),
                   ),
                 ),
                 Padding(

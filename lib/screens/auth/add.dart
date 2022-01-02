@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -189,37 +190,46 @@ class _AddState extends State<Add> {
                 Center(
                   child: InkWell(
                     onTap: () async {
-                      print(toggleValue);
-                      int i =
-                      await DatabaseHelper.instance.insert({
-                        DatabaseHelper.columnName:
-                        _controller1.text,
-                        DatabaseHelper.columnAmount:
-                        _controller2,
-                        DatabaseHelper.columnPhone:
-                        _controller3.text,
-                        DatabaseHelper.columnCondition:
-                        (toggleValue == false)
-                            ? 'Give'
-                            : 'Take',
-                        DatabaseHelper.columnDescription: _controller4.text,
-                        DatabaseHelper.columnIcon: selectedIndex
-                      });
-                      List<Map<String, dynamic>> query =
-                      await DatabaseHelper.instance
-                          .queryAll();
-                      Take = await DatabaseHelper.instance.TotalToTake();
-                      Give = await DatabaseHelper.instance.TotalToGive();
-                      widget.Take = Take;
-                      widget.Give = Give;
-                      closePopup();
-                      setState(() {
-                        _controller1.text = '';
-                        _controller3.text = '';
-                        _controller2 = 0;
-                        widget.query = query;
-                        toggleValue = false;
-                      });
+                      if(_controller1.text=='')
+                      {
+                          Fluttertoast.showToast(msg: 'Please enter name');
+                      }
+                      else if(_controller2==null)
+                      {
+                          Fluttertoast.showToast(msg: 'Please enter amount');
+                      }
+                      else{
+                        int i =
+                        await DatabaseHelper.instance.insert({
+                          DatabaseHelper.columnName:
+                          _controller1.text,
+                          DatabaseHelper.columnAmount:
+                          _controller2,
+                          DatabaseHelper.columnPhone:
+                          _controller3.text,
+                          DatabaseHelper.columnCondition:
+                          (toggleValue == false)
+                              ? 'Give'
+                              : 'Take',
+                          DatabaseHelper.columnDescription: _controller4.text,
+                          DatabaseHelper.columnIcon: selectedIndex
+                        });
+                        List<Map<String, dynamic>> query =
+                        await DatabaseHelper.instance
+                            .queryAll();
+                        Take = await DatabaseHelper.instance.TotalToTake();
+                        Give = await DatabaseHelper.instance.TotalToGive();
+                        widget.Take = Take;
+                        widget.Give = Give;
+                        closePopup();
+                        setState(() {
+                          _controller1.text = '';
+                          _controller3.text = '';
+                          _controller2 = 0;
+                          widget.query = query;
+                          toggleValue = false;
+                        });
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(

@@ -7,6 +7,7 @@ import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/main.dart';
 import 'package:login_ui/screens/auth/change_password.dart';
+import 'package:login_ui/screens/auth/forgotpass_email.dart';
 import 'home.dart';
 
 class SignIn extends StatefulWidget {
@@ -94,7 +95,7 @@ class _SignInState extends State<SignIn> {
                 ),
                 InkWell(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePass()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EnterEmail()));
                   },
                   child: Align(
                     alignment: Alignment.topRight,

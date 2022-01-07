@@ -12,12 +12,15 @@ import 'package:http/http.dart'as http;
 import 'dart:convert';
 
 class ChangePass extends StatefulWidget {
-
+  String email;
+  bool forgot;
+  ChangePass({this.email,this.forgot});
   @override
   _ChangePassState createState() => _ChangePassState();
 }
 
 class _ChangePassState extends State<ChangePass> with SingleTickerProviderStateMixin {
+
   AnimationController _controller;
   TextEditingController passctrl,cpassctrl;
   String cpass_;
@@ -163,7 +166,8 @@ class _ChangePassState extends State<ChangePass> with SingleTickerProviderStateM
                   if(result){
                     Navigator.pop(context);
                     Navigator.pop(context);
-                    Navigator.pop(context);
+                    if(widget.forgot==null)
+                      Navigator.pop(context);
                   }
 
                   // (namectrl == null) ? addNameToSF(widget.name) : addNameToSF(namectrl);
@@ -200,16 +204,10 @@ class _ChangePassState extends State<ChangePass> with SingleTickerProviderStateM
   
   }
   Future<bool> UpdateUserTable()async {
-    var url = "https://355668.xyz/Authentication/update_info.php";
+    var url = "https://355668.xyz/Authentication/forgot_pass.php";
     String email=await getEmail();
-    String name=await getName();
-    String shop=await getCompanyName();
-    int number=await getNumber();
     var data = {
-      "email" : email??'',
-      "name": name??'',
-      "ShopName": shop??'',
-      "number": number??'',
+      "email" : widget.email??email,
       "pass":cpass_
     };
     var res = await http.post(url, body: data);

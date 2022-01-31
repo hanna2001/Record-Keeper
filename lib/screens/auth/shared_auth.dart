@@ -5,8 +5,8 @@ import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/screens/auth/change_password.dart';
 import '../../main.dart';
-import '../background_paint.dart';
-import 'home.dart';
+import '../utils/background_paint.dart';
+import '../home.dart';
 import 'change_password.dart';
 
 class SharedAuth extends StatefulWidget {

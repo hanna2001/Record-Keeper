@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:login_ui/screens/auth/profile.dart';
-import 'package:login_ui/screens/auth/share.dart';
-import '../../main.dart';
-import 'about_us.dart';
-import 'settings.dart';
+import 'package:login_ui/screens/more/about_us.dart';
+import 'package:login_ui/screens/more/profile.dart';
+import 'package:login_ui/screens/more/settings.dart';
+import 'package:login_ui/screens/utils/share.dart';
+import '../main.dart';
+
 
 
 class More extends StatefulWidget {
@@ -28,7 +29,7 @@ class _MoreState extends State<More> {
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: [
-            Column(
+            ListView(
               children: [
                 GestureDetector(onTap: () async {
                   String Name = await getName();
@@ -36,7 +37,7 @@ class _MoreState extends State<More> {
                   String companyname = await getCompanyName();
                   int number = await getNumber();
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile(Name,email,number,companyname)));},child: Bar(Icons.person, 'Profile')),
-               GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Setting()));},child: Bar(Icons.settings, 'Settings')),
+                GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Setting()));},child: Bar(Icons.settings, 'Settings')),
                 GestureDetector(
                     onTap: (){
                       setState(() {
@@ -49,6 +50,7 @@ class _MoreState extends State<More> {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutUs()));
                     },
                     child: Bar(Icons.info_outline, 'About Us')),
+                //TODO: Add help and support page
                 Bar(Icons.help_outline, 'Help & Support'),
                 GestureDetector(
                   child: Bar(

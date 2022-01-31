@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:login_ui/config/database_helper.dart';
+import 'package:login_ui/screens/home.dart';
 
-import 'home.dart';
+
 
 class PopUp extends StatefulWidget {
   List<Map<String, dynamic>> query;

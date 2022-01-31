@@ -8,7 +8,7 @@ import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/main.dart';
 import 'package:login_ui/screens/auth/change_password.dart';
 import 'package:login_ui/screens/auth/forgotpass_email.dart';
-import 'home.dart';
+import '../home.dart';
 
 class SignIn extends StatefulWidget {
   @override

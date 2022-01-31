@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
 import '../../main.dart';
-import 'home.dart';
+import '../home.dart';
 
 class Register extends StatefulWidget {
   @override

@@ -7,9 +7,9 @@ import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/screens/auth/shared_auth.dart';
 
 import '../../main.dart';
-import '../background_paint.dart';
+import '../utils/background_paint.dart';
 import 'auth.dart';
-import 'home.dart';
+import '../home.dart';
 
 class Pin extends StatefulWidget {
   @override

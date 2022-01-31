@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:login_ui/config/database_helper.dart';
-import 'home.dart';
+import '../home.dart';
 
 
 class Edit extends StatefulWidget {

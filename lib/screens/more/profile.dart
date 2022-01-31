@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../main.dart';
+import '../../../main.dart';
 import 'package:http/http.dart'as http;
 
 class Profile extends StatefulWidget {
@@ -72,7 +72,7 @@ class _ProfileState extends State<Profile> {
                   color: Colors.black54,
                   size: 25,
                 ),
-                hintText: 'Registered email',
+                //hintText: 'Registered email',
               ),
               style: TextStyle(color: Colors.black, fontSize: 18),
             ),

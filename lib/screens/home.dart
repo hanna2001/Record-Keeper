@@ -4,12 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:login_ui/config/database_helper.dart';
-import 'package:login_ui/screens/auth/share.dart';
+import 'package:login_ui/screens/utils/share.dart';
+
 import 'package:share/share.dart';
 import 'add.dart';
-import 'edit.dart';
+import 'utils/edit.dart';
 import 'more.dart';
-import '../../config/icon.dart';
+import '../config/icon.dart';
 
 class Home extends StatefulWidget {
   List<Map<String, dynamic>> query;

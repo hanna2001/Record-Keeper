@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login_ui/screens/more/about_us.dart';
+import 'package:login_ui/screens/more/help.dart';
 import 'package:login_ui/screens/more/profile.dart';
 import 'package:login_ui/screens/more/settings.dart';
 import 'package:login_ui/screens/utils/share.dart';
@@ -51,7 +52,9 @@ class _MoreState extends State<More> {
                     },
                     child: Bar(Icons.info_outline, 'About Us')),
                 //TODO: Add help and support page
-                Bar(Icons.help_outline, 'Help & Support'),
+                GestureDetector(
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>Help()));},
+                  child: Bar(Icons.help_outline, 'Help & Support')),
                 GestureDetector(
                   child: Bar(
                     Icons.share, 'Invite Friends'

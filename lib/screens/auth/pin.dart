@@ -41,11 +41,14 @@ class _PinState extends State<Pin> with SingleTickerProviderStateMixin {
         bool check = await bioAuth();
         // bool check = false;
         List<Map<String, dynamic>> query = await DatabaseHelper.instance.queryAll();
+        List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
         int Take = await DatabaseHelper.instance.TotalToTake();
         int Give = await DatabaseHelper.instance.TotalToGive();
         String name = await getName();
         setState(() {
-          check ? Navigator.push(context, MaterialPageRoute(builder: (context) => Home(query,Give,Take))) : Navigator.push(context, MaterialPageRoute(builder: (context) => SharedAuth(name,false)));
+          check ? Navigator.push(context, MaterialPageRoute(builder: (context) => Home(query2,Give,Take))) : Navigator.push(context, MaterialPageRoute(builder: (context) => SharedAuth(name,false)));
         });
       },
       child: Scaffold(

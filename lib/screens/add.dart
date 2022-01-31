@@ -202,7 +202,7 @@ class _AddState extends State<Add> {
                         int i =
                         await DatabaseHelper.instance.insert({
                           DatabaseHelper.columnName:
-                          _controller1.text,
+                          _controller1.text.trim(),
                           DatabaseHelper.columnAmount:
                           _controller2,
                           DatabaseHelper.columnPhone:
@@ -214,9 +214,25 @@ class _AddState extends State<Add> {
                           DatabaseHelper.columnDescription: _controller4.text,
                           DatabaseHelper.columnIcon: selectedIndex
                         });
+                        
+                        //ORIGINAL
                         List<Map<String, dynamic>> query =
                         await DatabaseHelper.instance
                             .queryAll();
+
+                        //TESTING 1
+                        List<Map<String, dynamic>> query1 =
+                        await DatabaseHelper.instance
+                            .queryName("Akhilesh");
+                        //print(query1.toString());
+
+                        //TESTING 2
+                        List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
+                        print(query2.toString());
+
+
                         Take = await DatabaseHelper.instance.TotalToTake();
                         Give = await DatabaseHelper.instance.TotalToGive();
                         widget.Take = Take;
@@ -226,7 +242,7 @@ class _AddState extends State<Add> {
                           _controller1.text = '';
                           _controller3.text = '';
                           _controller2 = 0;
-                          widget.query = query;
+                          widget.query = query2;
                           toggleValue = false;
                         });
                       }
@@ -302,9 +318,12 @@ class _AddState extends State<Add> {
   closePopup() async{
     List<Map<String, dynamic>> query =
         await DatabaseHelper.instance.queryAll();
+    List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
     int Take1 = await DatabaseHelper.instance.TotalToTake();
     int Give1 = await DatabaseHelper.instance.TotalToGive();
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(query,Give1,Take1)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(query2,Give1,Take1)));
   }
 }
 

@@ -162,8 +162,12 @@ class _SignInState extends State<SignIn> {
             msg: "Incorrect Password", toastLength: Toast.LENGTH_SHORT);
         print('Incorrect Password');
       } else {
+        //TODO: CHANGES MADE
         List<Map<String, dynamic>> query =
             await DatabaseHelper.instance.queryAll();
+        List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
         int Take = await DatabaseHelper.instance.TotalToTake();
         int Give = await DatabaseHelper.instance.TotalToGive();
         addEmailToSF(emailctrl.text);
@@ -172,7 +176,7 @@ class _SignInState extends State<SignIn> {
         addCompanyNameToSF(body['company']);
         addNumberToSF(body['phone']);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Home(query, Give, Take)));
+            MaterialPageRoute(builder: (context) => Home(query2, Give, Take)));
       }
     }
     setState(() {

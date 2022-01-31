@@ -164,13 +164,16 @@ class _RegisterState extends State<Register> {
               msg: "Account Created", toastLength: Toast.LENGTH_SHORT);
           List<Map<String, dynamic>> query =
               await DatabaseHelper.instance.queryAll();
+          List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
           int Take = await DatabaseHelper.instance.TotalToTake();
           int Give = await DatabaseHelper.instance.TotalToGive();
           addEmailToSF(emailctrl.text);
           addPassToSF(passctrl.text);
           addNameToSF(namectrl.text);
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Home(query, Give, Take)));
+              MaterialPageRoute(builder: (context) => Home(query2, Give, Take)));
         } else {
           Fluttertoast.showToast(
               msg: "Error, Try Again later", toastLength: Toast.LENGTH_LONG);

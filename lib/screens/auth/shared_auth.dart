@@ -137,10 +137,13 @@ class _SharedAuthState extends State<SharedAuth>
     if(passctrl.text == pass){
       List<Map<String, dynamic>> query =
       await DatabaseHelper.instance.queryAll();
+      List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
       int Take = await DatabaseHelper.instance.TotalToTake();
       int Give = await DatabaseHelper.instance.TotalToGive();
       widget.changePass?Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePass())):Navigator.push(context,
-          MaterialPageRoute(builder: (context) => Home(query, Give, Take)));
+          MaterialPageRoute(builder: (context) => Home(query2, Give, Take)));
       
     }else{
       Fluttertoast.showToast(msg: 'Incorrect Password',toastLength:  Toast.LENGTH_LONG);

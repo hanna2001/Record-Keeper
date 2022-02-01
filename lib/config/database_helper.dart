@@ -115,4 +115,29 @@ class DatabaseHelper {
       return await result[0]['SUM(amount)'];
     }
   }
+
+  //NAME SPECIFIC:
+  Future<int> namedTotalToGive(String name) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Give' AND $columnName = '$name'");
+    if (result[0]['SUM(amount)'] == null) {
+      return 0;
+    } else {
+      return await result[0]['SUM(amount)'];
+    }
+  }
+
+  Future<int> namedTotalToTake(String name) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Take' AND $columnName = '$name'");
+    if (result[0]['SUM(amount)'] == null) {
+      return 0;
+    } else {
+      return await result[0]['SUM(amount)'];
+    }
+  }
+
+
 }

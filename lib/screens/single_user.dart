@@ -2,63 +2,183 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/icon.dart';
+import 'package:login_ui/screens/home.dart';
 import 'package:login_ui/screens/utils/edit.dart';
 import 'package:login_ui/screens/utils/share.dart';
 
 class SingleUser extends StatefulWidget {
   List<Map<String, dynamic>> query;
-  String name;
-  SingleUser({ Key key, this.query, this.name }): super(key: key);
+  String name; int Take,Give;
+  SingleUser({ Key key, this.query, this.name, this.Take, this.Give}): super(key: key);
 
   @override
   _SingleUserState createState() => _SingleUserState();
 }
 
 class _SingleUserState extends State<SingleUser> {
+  int Take; int Give;
+
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      appBar: AppBar(title: Text(widget.name),),
+      appBar: AppBar(
+        elevation:0,
+        backgroundColor: Color(0xfff96060),
+        leading:  IconButton(icon: Icon(Icons.arrow_back), 
+        onPressed: ()async{
+          Take = await DatabaseHelper.instance.TotalToTake();
+          Give = await DatabaseHelper.instance.TotalToGive();
+          widget.Take = Take;
+          widget.Give = Give;
+          List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> Home(query2,Give,Take)));
+        }
+      ),
+        title: Text(widget.name),
+      ),
       body: (widget.query.length == 0)
-          ? Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '+',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  Text(
-                    'Add New Record',
-                    style: TextStyle(
-                      fontSize: 25,
+          ? Center(
+            child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '+',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    Text(
+                      'Add New Record',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          )
+          : Column(
+            children: [
+
+            Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: Color(0xfff96060),
+          ),
+          height: 100,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //AMOUNT TO TAKE PART
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 60,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Amount to Take',
+                            style: TextStyle(
+                                color: Color(0xfff96060),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            '₹' + widget.Take.toString(),
+                            style: TextStyle(
+                              color: Color(0xfff96060),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
-            )
-          : Container(
-              child: new ListView.builder(
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                  itemCount: widget.query.length,
-                  itemBuilder: (BuildContext context, int index) {
-                       
-                     return taskWidget(
-                        (widget.query[index]['condition'] == 'Give')
-                            ? Color(0xfff96060)
-                            : Colors.green,
-                        widget.query[index]['name'],
-                        widget.query[index]['amount'],
-                        widget.query[index]['_id'],
-                        widget.query[index]['number'],
-                        widget.query[index]['condition'],
-                        widget.query[index]['description'],
-                        widget.query[index]['icon']); 
-                  }) ,
-            )
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                //AMOUNT TO GIVE PART
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 60,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Amount to Give',
+                            style: TextStyle(
+                                color: Color(0xfff96060),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Text(
+                            '₹' + widget.Give.toString(),
+                            style: TextStyle(
+                              color: Color(0xfff96060),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+
+              Container(
+                  child: new ListView.builder(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                      itemCount: widget.query.length,
+                      itemBuilder: (BuildContext context, int index) {
+                           
+                         return taskWidget(
+                            (widget.query[index]['condition'] == 'Give')
+                                ? Color(0xfff96060)
+                                : Colors.green,
+                            widget.query[index]['name'],
+                            widget.query[index]['amount'],
+                            widget.query[index]['_id'],
+                            widget.query[index]['number'],
+                            widget.query[index]['condition'],
+                            widget.query[index]['description'],
+                            widget.query[index]['icon']); 
+                      }) ,
+                ),
+            ],
+          )
 
     );
   }
@@ -155,13 +275,16 @@ class _SingleUserState extends State<SingleUser> {
                       print(i);
                       List<Map<String, dynamic>> query =
                           await DatabaseHelper.instance.queryAll();
+                      List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .queryName(widget.name);
                       setState(() {
-                        widget.query = query;
+                        widget.query = query2;
                       });
-                      /* Take = await DatabaseHelper.instance.TotalToTake();
+                      Take = await DatabaseHelper.instance.TotalToTake();
                       Give = await DatabaseHelper.instance.TotalToGive();
                       widget.Take = Take;
-                      widget.Give = Give; */
+                      widget.Give = Give; 
                       setState(() {});
                       Navigator.of(ctx).pop();
                     },

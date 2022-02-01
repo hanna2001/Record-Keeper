@@ -177,10 +177,13 @@ class _EditState extends State<Edit> {
                         DatabaseHelper.columnIcon: (selectedIndex==null) ? widget.icon : selectedIndex
                       });
                       List<Map<String, dynamic>> query = await DatabaseHelper.instance.queryAll();
+                      List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
                       int Take = await DatabaseHelper.instance.TotalToTake();
                       int Give = await DatabaseHelper.instance.TotalToGive();
                       Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => Home(query,Give,Take)));
+                        context, MaterialPageRoute(builder: (context) => Home(query2,Give,Take)));
 //                    Navigator.pop(context,MaterialPageRoute(builder: (context) => Home(query,Give,Take)));
                     },
                     child: Container(

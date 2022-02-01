@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
   String popup = 'close';
   bool toggleValue = false;
   int Take = 0, Give = 0;
-  
+  int namedTake; int namedGive;
   @override
   Widget build(BuildContext context){
     return WillPopScope(
@@ -168,9 +168,12 @@ class _HomeState extends State<Home> {
                             return ListTile(
                               onTap:()async{
                                 List<Map<String, dynamic>> query1 =  await DatabaseHelper.instance .queryName(widget.query[index]['name'].toString());
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleUser(query: query1,name:widget.query[index]['name'].toString(),)));
+                                  namedTake = await DatabaseHelper.instance.namedTotalToTake(widget.query[index]['name'].toString());
+                                  namedGive = await DatabaseHelper.instance.namedTotalToGive(widget.query[index]['name'].toString());
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleUser(query: query1,name:widget.query[index]['name'].toString(),Take: namedTake, Give: namedGive)));
                               },
                               title: Text(widget.query[index]['name'].toString()),
+                              
                             );
 
                             

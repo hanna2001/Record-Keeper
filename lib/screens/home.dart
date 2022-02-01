@@ -14,25 +14,45 @@ import '../config/icon.dart';
 
 class Home extends StatefulWidget{
   List<Map<String, dynamic>> query;
+  
   int Take, Give;
-  Home(this.query, this.Give, this.Take);
+  Home(this.query, this.Give, this.Take,);
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
+  
   //TextEditingController _controller1 = new TextEditingController();
   //int _controller2;
   //TextEditingController _controller3 = new TextEditingController();
   String popup = 'close';
   bool toggleValue = false;
   int Take = 0, Give = 0;
-  int namedTake; int namedGive;
+
+  getNamedTotaltoGive(String name)async{
+
+    int total = await DatabaseHelper.instance.namedTotalToGive(name);
+    
+    print(name+" "+total.toString());
+    return total;
+
+  }
+
+  
+  getNamedTotaltoTake(String name)async{
+
+    int total = await DatabaseHelper.instance.namedTotalToTake(name);
+    return total;
+
+  }
+  
+    
   @override
   Widget build(BuildContext context){
     return WillPopScope(
       onWillPop: () async {
+
         exit(0);
         //return false;
       },
@@ -163,17 +183,29 @@ class _HomeState extends State<Home> {
                       child: new ListView.builder(
                         physics: BouncingScrollPhysics(),
                           itemCount: widget.query.length,
-                          itemBuilder: (BuildContext context, int index) {
+                          itemBuilder: (BuildContext context, int index){
+                         
+                            print(widget.query.toString());
+                            //int x = int.parse(getNamedTotaltoGive(widget.query[index]['name'].toString()));
+                            //print(x.toString());
 
-                            return ListTile(
-                              onTap:()async{
-                                List<Map<String, dynamic>> query1 =  await DatabaseHelper.instance .queryName(widget.query[index]['name'].toString());
-                                  namedTake = await DatabaseHelper.instance.namedTotalToTake(widget.query[index]['name'].toString());
-                                  namedGive = await DatabaseHelper.instance.namedTotalToGive(widget.query[index]['name'].toString());
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleUser(query: query1,name:widget.query[index]['name'].toString(),Take: namedTake, Give: namedGive)));
-                              },
-                              title: Text(widget.query[index]['name'].toString()),
-                              
+                            
+                            
+                            return Card(
+                              child: ListTile(
+                                onTap:()async{
+                                  List<Map<String, dynamic>> query1 =  await DatabaseHelper.instance .queryName(widget.query[index]['name'].toString());
+                                    int namedTake = await DatabaseHelper.instance.namedTotalToTake(widget.query[index]['name'].toString());
+                                    int namedGive = await DatabaseHelper.instance.namedTotalToGive(widget.query[index]['name'].toString());
+                                   
+                                  Navigator.push(context, 
+                                  MaterialPageRoute(builder: (context)=>SingleUser(query: query1,name:widget.query[index]['name'].toString(),Take: namedTake, Give: namedGive)));
+                                },
+
+                                title: Text(widget.query[index]['name'].toString()),
+                                trailing: Text("click to view transaction")
+                                
+                              ),
                             );
 
                             

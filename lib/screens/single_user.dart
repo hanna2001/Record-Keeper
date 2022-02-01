@@ -17,8 +17,6 @@ class SingleUser extends StatefulWidget {
 
 class _SingleUserState extends State<SingleUser> {
   int Take; int Give;
-
-  
   
   @override
   Widget build(BuildContext context) {
@@ -48,11 +46,11 @@ class _SingleUserState extends State<SingleUser> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      '+',
+                      '!',
                       style: TextStyle(fontSize: 30),
                     ),
                     Text(
-                      'Add New Record',
+                      'All records of User Deleted',
                       style: TextStyle(
                         fontSize: 25,
                       ),

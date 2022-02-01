@@ -165,16 +165,22 @@ class _SignInState extends State<SignIn> {
         //TODO: CHANGES MADE
         List<Map<String, dynamic>> query =
             await DatabaseHelper.instance.queryAll();
+        
         List<Map<String, dynamic>> query2 =
                         await DatabaseHelper.instance
                             .uniqueNames();
+
+        
+            
         int Take = await DatabaseHelper.instance.TotalToTake();
         int Give = await DatabaseHelper.instance.TotalToGive();
+
         addEmailToSF(emailctrl.text);
         addPassToSF(passctrl.text);
         addNameToSF(body['name']);
         addCompanyNameToSF(body['company']);
         addNumberToSF(body['phone']);
+        
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => Home(query2, Give, Take)));
       }

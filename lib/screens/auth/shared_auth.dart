@@ -140,10 +140,21 @@ class _SharedAuthState extends State<SharedAuth>
       List<Map<String, dynamic>> query2 =
                         await DatabaseHelper.instance
                             .uniqueNames();
+
+       Map<dynamic,dynamic>query3 = new Map<dynamic,dynamic>();
+
+        for(int i=0;i<query2.length;i++) {
+          var x = await DatabaseHelper.instance.namedTotalToTake(query2[i]['name'].toString());
+          var y = await DatabaseHelper.instance.namedTotalToGive(query2[i]['name'].toString());
+          query3[query2[i]['name']] = x-y;
+        }
+
+        print(query3.toString());
+
       int Take = await DatabaseHelper.instance.TotalToTake();
       int Give = await DatabaseHelper.instance.TotalToGive();
       widget.changePass?Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePass())):Navigator.push(context,
-          MaterialPageRoute(builder: (context) => Home(query2, Give, Take)));
+          MaterialPageRoute(builder: (context) => Home(query2, Give, Take,query3)));
       
     }else{
       Fluttertoast.showToast(msg: 'Incorrect Password',toastLength:  Toast.LENGTH_LONG);

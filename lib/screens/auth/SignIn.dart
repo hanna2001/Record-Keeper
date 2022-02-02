@@ -169,7 +169,16 @@ class _SignInState extends State<SignIn> {
         List<Map<String, dynamic>> query2 =
                         await DatabaseHelper.instance
                             .uniqueNames();
+        
+        Map<dynamic,dynamic>query3 = new Map<dynamic,dynamic>();
 
+        for(int i=0;i<query2.length;i++) {
+          var x = await DatabaseHelper.instance.namedTotalToTake(query2[i]['name'].toString());
+          var y = await DatabaseHelper.instance.namedTotalToGive(query2[i]['name'].toString());
+          query3[query2[i]['name']] = x-y;
+        }
+
+        print(query3.toString());  
         
             
         int Take = await DatabaseHelper.instance.TotalToTake();
@@ -182,7 +191,7 @@ class _SignInState extends State<SignIn> {
         addNumberToSF(body['phone']);
         
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Home(query2, Give, Take)));
+            MaterialPageRoute(builder: (context) => Home(query2, Give, Take,query3)));
       }
     }
     setState(() {

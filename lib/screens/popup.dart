@@ -269,6 +269,7 @@ int Take = 0, Give = 0;
     await DatabaseHelper.instance.queryAll();
     Take = await DatabaseHelper.instance.TotalToTake();
     Give = await DatabaseHelper.instance.TotalToGive();
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>Home(query,Give,Take)));
+    
+    //Navigator.push(context, MaterialPageRoute(builder: (context)=>Home(query,Give,Take)));
   }
 }

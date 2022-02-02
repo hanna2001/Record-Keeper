@@ -138,6 +138,4 @@ class DatabaseHelper {
       return await result[0]['SUM(amount)'];
     }
   }
-
-
 }

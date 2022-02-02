@@ -14,21 +14,21 @@ import '../config/icon.dart';
 
 class Home extends StatefulWidget{
   List<Map<String, dynamic>> query;
-  
+  Map<dynamic,dynamic> data;
   int Take, Give;
-  Home(this.query, this.Give, this.Take,);
+  Home(this.query, this.Give, this.Take,this.data);
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
   
-  //TextEditingController _controller1 = new TextEditingController();
-  //int _controller2;
-  //TextEditingController _controller3 = new TextEditingController();
+  
   String popup = 'close';
   bool toggleValue = false;
   int Take = 0, Give = 0;
+  int take1;int take2;
+  namedTake(name) async => await DatabaseHelper.instance.namedTotalToGive(name);
 
   getNamedTotaltoGive(String name)async{
 
@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
     return total;
 
   }
-  
+
     
   @override
   Widget build(BuildContext context){
@@ -185,28 +185,30 @@ class _HomeState extends State<Home> {
                           itemCount: widget.query.length,
                           itemBuilder: (BuildContext context, int index){
                          
-                            print(widget.query.toString());
-                            //int x = int.parse(getNamedTotaltoGive(widget.query[index]['name'].toString()));
-                            //print(x.toString());
-
+                            //print(widget.query.toString());
+                            var x =getNamedTotaltoGive(widget.query[index]['name'].toString());
+                            
+                             
                             
                             
                             return Card(
-                              child: ListTile(
-                                onTap:()async{
-                                  List<Map<String, dynamic>> query1 =  await DatabaseHelper.instance .queryName(widget.query[index]['name'].toString());
-                                    int namedTake = await DatabaseHelper.instance.namedTotalToTake(widget.query[index]['name'].toString());
-                                    int namedGive = await DatabaseHelper.instance.namedTotalToGive(widget.query[index]['name'].toString());
-                                   
-                                  Navigator.push(context, 
-                                  MaterialPageRoute(builder: (context)=>SingleUser(query: query1,name:widget.query[index]['name'].toString(),Take: namedTake, Give: namedGive)));
-                                },
-
-                                title: Text(widget.query[index]['name'].toString()),
-                                trailing: Text("click to view transaction")
+                                  child: ListTile(
+                                    onTap:()async{
+                                      List<Map<String, dynamic>> query1 =  await DatabaseHelper.instance .queryName(widget.query[index]['name'].toString());
+                                      int namedTake = await DatabaseHelper.instance.namedTotalToTake(widget.query[index]['name'].toString());
+                                      int namedGive = await DatabaseHelper.instance.namedTotalToGive(widget.query[index]['name'].toString());
+                                      
+                                      Navigator.push(context, 
+                                      MaterialPageRoute(builder: (context)=>SingleUser(query: query1,name:widget.query[index]['name'].toString(),Take: namedTake, Give: namedGive)));
+                                    },
+                                    
+                                    title: Text(widget.query[index]['name'].toString()),
+                                    trailing: Text(widget.data[widget.query[index]['name'].toString()].toString()),
+                                    
+                                  )
                                 
-                              ),
-                            );
+                              );
+                            
 
                             
                             /* return taskWidget(

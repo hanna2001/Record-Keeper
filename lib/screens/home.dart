@@ -205,7 +205,7 @@ class _HomeState extends State<Home> {
                                     title: Text(widget.query[index]['name'].toString()),
                                     trailing: Text(
                                       widget.data[widget.query[index]['name'].toString()
-                                      ].toString(), style: TextStyle(
+                                      ].abs().toString(), style: TextStyle(
                                         color: widget.data[widget.query[index]['name']]>0? Colors.green : Colors.red,
                                       )
                                     ),

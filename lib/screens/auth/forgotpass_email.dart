@@ -1,24 +1,21 @@
-import 'dart:isolate';
-
+//import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:login_ui/config/database_helper.dart';
+//import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/screens/auth/change_password.dart';
-import '../../main.dart';
+//import '../../main.dart';
 import '../utils/background_paint.dart';
-import '../home.dart';
+//import '../home.dart';
 import 'change_password.dart';
 import 'package:http/http.dart'as http;
 import 'dart:convert';
-
 class EnterEmail extends StatefulWidget {
 
   @override
   _EnterEmailState createState() => _EnterEmailState();
 }
-
 class _EnterEmailState extends State<EnterEmail> with SingleTickerProviderStateMixin {
 
   AnimationController _controller;
@@ -41,7 +38,8 @@ class _EnterEmailState extends State<EnterEmail> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(children: [
+      body: Stack(
+        children: [
         SizedBox.expand(
           child: CustomPaint(
             painter: BackgroundPainter(

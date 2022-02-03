@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:login_ui/config/database_helper.dart';
-import 'package:login_ui/config/palette.dart';
-import 'package:login_ui/screens/auth/change_password.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:login_ui/config/database_helper.dart';
+//import 'package:login_ui/config/palette.dart';
+//import 'package:login_ui/screens/auth/change_password.dart';
 import '../../main.dart';
 import '../utils/background_paint.dart';
-import '../home.dart';
-import 'change_password.dart';
+//import '../home.dart';
+//import 'change_password.dart';
 import 'package:http/http.dart'as http;
 import 'dart:convert';
 
@@ -26,6 +26,8 @@ class _ChangePassState extends State<ChangePass> with SingleTickerProviderStateM
   String cpass_;
   bool pass = true,cpass=true;
   bool isLoading = false;
+
+  
   @override
   void initState() {
     _controller =

@@ -15,6 +15,7 @@ class DatabaseHelper {
   static final columnCondition = 'condition';
   static final columnDescription = 'description';
   static final columnIcon = 'icon';
+  static final columnSettled = 'settled';
 
   //making it a singleton class
   DatabaseHelper._privateConstructor();
@@ -49,7 +50,8 @@ class DatabaseHelper {
       $columnAmount INTEGER,
       $columnCondition TEXT,
       $columnDescription TEXT,
-      $columnIcon INTEGER
+      $columnIcon INTEGER,
+      $columnSettled INTEGER DEFAULT 0
       )
       ''');
   }
@@ -70,6 +72,20 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> queryName(String name) async {
     Database db = await instance.database;
     var result = await db.rawQuery("SELECT * FROM $_tableName WHERE $columnName = '$name' ");
+    return result;
+  }
+
+  //Settled Transaction
+  Future<List<Map<String, dynamic>>> querySettled(String name) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery("SELECT * FROM $_tableName WHERE $columnName = '$name' AND $columnSettled = 1");
+    return result;
+  }
+  
+  //Unsettled Transaction
+  Future<List<Map<String, dynamic>>> queryUnSettled(String name) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery("SELECT * FROM $_tableName WHERE $columnName = '$name' AND $columnSettled = 0");
     return result;
   }
 
@@ -97,7 +113,7 @@ class DatabaseHelper {
   Future<int> TotalToGive() async {
     Database db = await instance.database;
     var result = await db.rawQuery(
-        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Give'");
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Give' AND $columnSettled = 0");
     if (result[0]['SUM(amount)'] == null) {
       return 0;
     } else {
@@ -108,7 +124,7 @@ class DatabaseHelper {
   Future<int> TotalToTake() async {
     Database db = await instance.database;
     var result = await db.rawQuery(
-        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Take'");
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Take' AND $columnSettled = 0");
     if (result[0]['SUM(amount)'] == null) {
       return 0;
     } else {
@@ -120,7 +136,7 @@ class DatabaseHelper {
   Future<int> namedTotalToGive(String name) async {
     Database db = await instance.database;
     var result = await db.rawQuery(
-        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Give' AND $columnName = '$name'");
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Give' AND $columnName = '$name' AND $columnSettled = 0");
     if (result[0]['SUM(amount)'] == null) {
       return 0;
     } else {
@@ -131,7 +147,7 @@ class DatabaseHelper {
   Future<int> namedTotalToTake(String name) async {
     Database db = await instance.database;
     var result = await db.rawQuery(
-        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Take' AND $columnName = '$name'");
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Take' AND $columnName = '$name' AND $columnSettled =0");
     if (result[0]['SUM(amount)'] == null) {
       return 0;
     } else {

@@ -212,21 +212,10 @@ class _AddState extends State<Add> {
                               ? 'Give'
                               : 'Take',
                           DatabaseHelper.columnDescription: _controller4.text,
-                          DatabaseHelper.columnIcon: selectedIndex
+                          DatabaseHelper.columnIcon: selectedIndex,
+                          DatabaseHelper.columnSettled : 0,
                         });
                         
-                        //ORIGINAL
-                        List<Map<String, dynamic>> query =
-                        await DatabaseHelper.instance
-                            .queryAll();
-
-                        //TESTING 1
-                        List<Map<String, dynamic>> query1 =
-                        await DatabaseHelper.instance
-                            .queryName("Akhilesh");
-                        //print(query1.toString());
-
-                        //TESTING 2
                         List<Map<String, dynamic>> query2 =
                         await DatabaseHelper.instance
                             .uniqueNames();
@@ -237,7 +226,9 @@ class _AddState extends State<Add> {
                         Give = await DatabaseHelper.instance.TotalToGive();
                         widget.Take = Take;
                         widget.Give = Give;
+
                         closePopup();
+                        
                         setState(() {
                           _controller1.text = '';
                           _controller3.text = '';

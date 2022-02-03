@@ -46,7 +46,7 @@ class _PinState extends State<Pin> with SingleTickerProviderStateMixin {
                             .uniqueNames();
         int Take = await DatabaseHelper.instance.TotalToTake();
         int Give = await DatabaseHelper.instance.TotalToGive();
-         Map<dynamic,dynamic>query3 = new Map<dynamic,dynamic>();
+        Map<dynamic,dynamic>query3 = new Map<dynamic,dynamic>();
 
         for(int i=0;i<query2.length;i++) {
           var x = await DatabaseHelper.instance.namedTotalToTake(query2[i]['name'].toString());

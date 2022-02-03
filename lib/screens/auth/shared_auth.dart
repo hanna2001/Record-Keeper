@@ -5,8 +5,8 @@ import 'package:login_ui/config/database_helper.dart';
 import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/screens/auth/change_password.dart';
 import '../../main.dart';
-import '../background_paint.dart';
-import 'home.dart';
+import '../utils/background_paint.dart';
+import '../home.dart';
 import 'change_password.dart';
 
 class SharedAuth extends StatefulWidget {
@@ -137,10 +137,24 @@ class _SharedAuthState extends State<SharedAuth>
     if(passctrl.text == pass){
       List<Map<String, dynamic>> query =
       await DatabaseHelper.instance.queryAll();
+      List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
+
+       Map<dynamic,dynamic>query3 = new Map<dynamic,dynamic>();
+
+        for(int i=0;i<query2.length;i++) {
+          var x = await DatabaseHelper.instance.namedTotalToTake(query2[i]['name'].toString());
+          var y = await DatabaseHelper.instance.namedTotalToGive(query2[i]['name'].toString());
+          query3[query2[i]['name']] = x-y;
+        }
+
+        print(query3.toString());
+
       int Take = await DatabaseHelper.instance.TotalToTake();
       int Give = await DatabaseHelper.instance.TotalToGive();
       widget.changePass?Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePass())):Navigator.push(context,
-          MaterialPageRoute(builder: (context) => Home(query, Give, Take)));
+          MaterialPageRoute(builder: (context) => Home(query2, Give, Take,query3)));
       
     }else{
       Fluttertoast.showToast(msg: 'Incorrect Password',toastLength:  Toast.LENGTH_LONG);

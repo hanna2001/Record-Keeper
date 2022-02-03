@@ -4,7 +4,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseHelper {
-
   static final _dbName = "myDatabase.db";
   static final _dbVersion = 1;
   static final _tableName = "myTable";
@@ -16,6 +15,7 @@ class DatabaseHelper {
   static final columnCondition = 'condition';
   static final columnDescription = 'description';
   static final columnIcon = 'icon';
+  static final columnSettled = 'settled';
 
   //making it a singleton class
   DatabaseHelper._privateConstructor();
@@ -42,8 +42,7 @@ class DatabaseHelper {
 
   //creating database at local storage
   Future _onCreate(Database db, int version) {
-    db.execute(
-        '''
+    db.execute('''
       CREATE TABLE $_tableName(
       $columnId INTEGER PRIMARY KEY,
       $columnName TEXT ,
@@ -51,10 +50,10 @@ class DatabaseHelper {
       $columnAmount INTEGER,
       $columnCondition TEXT,
       $columnDescription TEXT,
-      $columnIcon INTEGER
+      $columnIcon INTEGER,
+      $columnSettled INTEGER DEFAULT 0
       )
-      '''
-    );
+      ''');
   }
 
   //insert data
@@ -69,12 +68,40 @@ class DatabaseHelper {
     return await db.query(_tableName);
   }
 
+  //read data with specific customer Name (WORKS)
+  Future<List<Map<String, dynamic>>> queryName(String name) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery("SELECT * FROM $_tableName WHERE $columnName = '$name' ");
+    return result;
+  }
+
+  //Settled Transaction
+  Future<List<Map<String, dynamic>>> querySettled(String name) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery("SELECT * FROM $_tableName WHERE $columnName = '$name' AND $columnSettled = 1");
+    return result;
+  }
+  
+  //Unsettled Transaction
+  Future<List<Map<String, dynamic>>> queryUnSettled(String name) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery("SELECT * FROM $_tableName WHERE $columnName = '$name' AND $columnSettled = 0");
+    return result;
+  }
+
+  //List of all unique names (WORKS)
+  Future<List<Map<String, dynamic>>> uniqueNames() async {
+    Database db = await instance.database;
+    var result = await db.rawQuery("SELECT DISTINCT $columnName FROM $_tableName");
+    return result;
+  }
+
   //Update data
   Future<int> update(Map<String, dynamic> row) async {
     Database db = await instance.database;
     int id = row[columnId];
-    return await db.update(
-        _tableName, row, where: '$columnId = ?', whereArgs: [id]);
+    return await db
+        .update(_tableName, row, where: '$columnId = ?', whereArgs: [id]);
   }
 
   //delete data
@@ -86,20 +113,44 @@ class DatabaseHelper {
   Future<int> TotalToGive() async {
     Database db = await instance.database;
     var result = await db.rawQuery(
-        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Give'");
-    if(result[0]['SUM(amount)'] == null){
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Give' AND $columnSettled = 0");
+    if (result[0]['SUM(amount)'] == null) {
       return 0;
-    }else {
+    } else {
       return await result[0]['SUM(amount)'];
     }
   }
+
   Future<int> TotalToTake() async {
     Database db = await instance.database;
     var result = await db.rawQuery(
-        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Take'");
-    if(result[0]['SUM(amount)'] == null){
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Take' AND $columnSettled = 0");
+    if (result[0]['SUM(amount)'] == null) {
       return 0;
-    }else {
+    } else {
+      return await result[0]['SUM(amount)'];
+    }
+  }
+
+  //NAME SPECIFIC:
+  Future<int> namedTotalToGive(String name) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Give' AND $columnName = '$name' AND $columnSettled = 0");
+    if (result[0]['SUM(amount)'] == null) {
+      return 0;
+    } else {
+      return await result[0]['SUM(amount)'];
+    }
+  }
+
+  Future<int> namedTotalToTake(String name) async {
+    Database db = await instance.database;
+    var result = await db.rawQuery(
+        "SELECT SUM($columnAmount) FROM $_tableName WHERE $columnCondition = 'Take' AND $columnName = '$name' AND $columnSettled =0");
+    if (result[0]['SUM(amount)'] == null) {
+      return 0;
+    } else {
       return await result[0]['SUM(amount)'];
     }
   }

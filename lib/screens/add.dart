@@ -202,7 +202,7 @@ class _AddState extends State<Add> {
                         int i =
                         await DatabaseHelper.instance.insert({
                           DatabaseHelper.columnName:
-                          _controller1.text,
+                          _controller1.text.trim(),
                           DatabaseHelper.columnAmount:
                           _controller2,
                           DatabaseHelper.columnPhone:
@@ -212,21 +212,28 @@ class _AddState extends State<Add> {
                               ? 'Give'
                               : 'Take',
                           DatabaseHelper.columnDescription: _controller4.text,
-                          DatabaseHelper.columnIcon: selectedIndex
+                          DatabaseHelper.columnIcon: selectedIndex,
+                          DatabaseHelper.columnSettled : 0,
                         });
-                        List<Map<String, dynamic>> query =
+                        
+                        List<Map<String, dynamic>> query2 =
                         await DatabaseHelper.instance
-                            .queryAll();
+                            .uniqueNames();
+                        print(query2.toString());
+
+
                         Take = await DatabaseHelper.instance.TotalToTake();
                         Give = await DatabaseHelper.instance.TotalToGive();
                         widget.Take = Take;
                         widget.Give = Give;
+
                         closePopup();
+                        
                         setState(() {
                           _controller1.text = '';
                           _controller3.text = '';
                           _controller2 = 0;
-                          widget.query = query;
+                          widget.query = query2;
                           toggleValue = false;
                         });
                       }
@@ -302,9 +309,21 @@ class _AddState extends State<Add> {
   closePopup() async{
     List<Map<String, dynamic>> query =
         await DatabaseHelper.instance.queryAll();
+    List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
+     Map<dynamic,dynamic>query3 = new Map<dynamic,dynamic>();
+
+        for(int i=0;i<query2.length;i++) {
+          var x = await DatabaseHelper.instance.namedTotalToTake(query2[i]['name'].toString());
+          var y = await DatabaseHelper.instance.namedTotalToGive(query2[i]['name'].toString());
+          query3[query2[i]['name']] = x-y;
+        }
+
+        print(query3.toString());
     int Take1 = await DatabaseHelper.instance.TotalToTake();
     int Give1 = await DatabaseHelper.instance.TotalToGive();
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(query,Give1,Take1)));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> Home(query2,Give1,Take1,query3)));
   }
 }
 

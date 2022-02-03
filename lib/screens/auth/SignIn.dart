@@ -8,7 +8,7 @@ import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/main.dart';
 import 'package:login_ui/screens/auth/change_password.dart';
 import 'package:login_ui/screens/auth/forgotpass_email.dart';
-import 'home.dart';
+import '../home.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -162,17 +162,36 @@ class _SignInState extends State<SignIn> {
             msg: "Incorrect Password", toastLength: Toast.LENGTH_SHORT);
         print('Incorrect Password');
       } else {
+        //TODO: CHANGES MADE
         List<Map<String, dynamic>> query =
             await DatabaseHelper.instance.queryAll();
+        
+        List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
+        
+        Map<dynamic,dynamic>query3 = new Map<dynamic,dynamic>();
+
+        for(int i=0;i<query2.length;i++) {
+          var x = await DatabaseHelper.instance.namedTotalToTake(query2[i]['name'].toString());
+          var y = await DatabaseHelper.instance.namedTotalToGive(query2[i]['name'].toString());
+          query3[query2[i]['name']] = x-y;
+        }
+
+        print(query3.toString());  
+        
+            
         int Take = await DatabaseHelper.instance.TotalToTake();
         int Give = await DatabaseHelper.instance.TotalToGive();
+
         addEmailToSF(emailctrl.text);
         addPassToSF(passctrl.text);
         addNameToSF(body['name']);
         addCompanyNameToSF(body['company']);
         addNumberToSF(body['phone']);
+        
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => Home(query, Give, Take)));
+            MaterialPageRoute(builder: (context) => Home(query2, Give, Take,query3)));
       }
     }
     setState(() {

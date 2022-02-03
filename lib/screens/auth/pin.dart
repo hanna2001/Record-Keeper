@@ -7,9 +7,9 @@ import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/screens/auth/shared_auth.dart';
 
 import '../../main.dart';
-import '../background_paint.dart';
+import '../utils/background_paint.dart';
 import 'auth.dart';
-import 'home.dart';
+import '../home.dart';
 
 class Pin extends StatefulWidget {
   @override
@@ -41,11 +41,23 @@ class _PinState extends State<Pin> with SingleTickerProviderStateMixin {
         bool check = await bioAuth();
         // bool check = false;
         List<Map<String, dynamic>> query = await DatabaseHelper.instance.queryAll();
+        List<Map<String, dynamic>> query2 =
+                        await DatabaseHelper.instance
+                            .uniqueNames();
         int Take = await DatabaseHelper.instance.TotalToTake();
         int Give = await DatabaseHelper.instance.TotalToGive();
+        Map<dynamic,dynamic>query3 = new Map<dynamic,dynamic>();
+
+        for(int i=0;i<query2.length;i++) {
+          var x = await DatabaseHelper.instance.namedTotalToTake(query2[i]['name'].toString());
+          var y = await DatabaseHelper.instance.namedTotalToGive(query2[i]['name'].toString());
+          query3[query2[i]['name']] = x-y;
+        }
+
+        print(query3.toString());
         String name = await getName();
         setState(() {
-          check ? Navigator.push(context, MaterialPageRoute(builder: (context) => Home(query,Give,Take))) : Navigator.push(context, MaterialPageRoute(builder: (context) => SharedAuth(name,false)));
+          check ? Navigator.push(context, MaterialPageRoute(builder: (context) => Home(query2,Give,Take,query3))) : Navigator.push(context, MaterialPageRoute(builder: (context) => SharedAuth(name,false)));
         });
       },
       child: Scaffold(

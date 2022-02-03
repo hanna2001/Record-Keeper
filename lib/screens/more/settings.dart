@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login_ui/screens/auth/shared_auth.dart';
 
-import '../../main.dart';
+import '../../../main.dart';
 
 class Setting extends StatefulWidget {
   @override

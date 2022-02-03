@@ -1,7 +1,8 @@
+//This page controls the transition between sign in and register and its UI
 import 'package:flutter/material.dart';
 import 'package:login_ui/config/palette.dart';
 import 'package:login_ui/screens/auth/register.dart';
-import '../background_paint.dart';
+import '../utils/background_paint.dart';
 import 'SignIn.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -41,6 +42,8 @@ class _AuthScreenState extends State<AuthScreen>
             ),
           ),
         ),
+
+        //MAIN WIDGETS 
         toggle == true ? SignIn() : Register(),
         toggle == true
             ? Align(
